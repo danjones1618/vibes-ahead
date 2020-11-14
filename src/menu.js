@@ -20,7 +20,7 @@ function onPlayButtonPress() {
 
 }
 
-function onScoreButtonPress() {
+function onScoresButtonPress() {
 
 }
 
