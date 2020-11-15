@@ -248,6 +248,28 @@ button:hover, button:focus {
     letter-spacing: 0.5rem;
 }
 
+#dark-check {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Big Shoulders Stencil Text', cursive;
+    font-weight: 300;
+    font-size: 2rem;
+    letter-spacing: 0.5rem;
+}
+
+#volume {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Big Shoulders Stencil Text', cursive;
+    font-weight: 300;
+    font-size: 2rem;
+    letter-spacing: 0.5rem;
+}
+
 #main-menu {
     gap: 2rem;
 }

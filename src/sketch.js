@@ -4,7 +4,8 @@ var w = 3500;
 var h = 1800;
 
 var pos = 0;
-var speedRate = 0.003;
+var speedRate = 0.001;
+var speedMultiplier = 1;
 var oldSpeedCount = 100;
 var newSpeedCount = 0;
 var deltaAnim = 0;
@@ -14,15 +15,20 @@ var rotateDir = 'none';
 var tiltDir = 'none';
 var score = 0;
 var delorean;
+var lights;
+var windows;
 var terrain = [];
 var cam;
 var posX;
 var posY;
 var fft, bassPeakDetect, treblePeakDetect;
+var playing = false;
 
 function preload() {
   music = loadSound('res/Ocean-Shores_YOURSELF-LIVE.mp3');
   delorean = loadModel('res/del.obj', true);
+  lights = loadModel('res/lights.obj', true);
+  windows = loadModel('res/windows.obj', true);
 }
 
 function playMusic() {
@@ -33,12 +39,22 @@ function playMusic() {
   }
 }
 
+function endGame() {
+  const finalScore = score * 10;
+  playing = false;
+  speedMultiplier = 1;
+  speedRate = 0.001;
+  showSubmitScore(finalScore);
+}
+
 // Function called when play game btn is pressed
 function playGame() {
   playMusic();
   score = 0;
   speedRate = 0.003;
+  speedMultiplier = 1.01;
   document.getElementById("score-label").classList.add("show");
+  playing = true;
 }
 
 function keyPressed() {
@@ -155,22 +171,22 @@ function draw() {
     //move your mouse to change light direction
   let dirX = (mouseX / width - 0.5) * 2;
   let dirY = (mouseY / height - 0.5) * 2;
-  directionalLight(131, 16, 133, -dirX, -dirY, -1);
+  directionalLight(131, 16, 133, -dirX, -dirY + 2, -1);
   noStroke();
-  specularMaterial(0xE0, 0xE0, 0xE0, 0xFF);
+  specularMaterial(0xFF, 0xFF, 0xFF, 0xFF);
   translate(w / 2, h * 0.71, 20 * sigmoid(map(terrain[Math.floor(cols / 2)][Math.floor(rows*0.71)], -32, -18, -6, 1)) + 8);
   scale(0.7);
   rotateX(PI / 2);
   rotateY(PI / 2);
 
-  if (keyIsDown(RIGHT_ARROW)) {
+  if (keyIsDown(RIGHT_ARROW) && playing) {
     posX += 0.15;
     if (deltaAnim > 0 && rotateDir === 'left')
       deltaAnim *= -0.5;
     rotateDir = 'right';
   }
 
-  if (keyIsDown(LEFT_ARROW)) {
+  if (keyIsDown(LEFT_ARROW) && playing) {
     posX -= 0.15;
     if (deltaAnim > 0 && rotateDir === 'right')
       deltaAnim *= -0.5;
@@ -178,7 +194,7 @@ function draw() {
   }
   
   cam.perspective(PI/3, 1.77, ((1080/2)/tan(PI*60/360))/10.0, ((1080/2)/tan(PI*60/360))*10.0);
-  if (keyIsDown(UP_ARROW)) {
+  if (keyIsDown(UP_ARROW) && playing) {
     posY -= 0.1;
     if (deltaAnimTilt > 0 && tiltDir === 'up')
       deltaAnimTilt *= -0.5;
@@ -186,7 +202,7 @@ function draw() {
     // cam.perspective(PI/2.95, 1.77, ((1080/2)/tan(PI*60/360))/10.0, ((1080/2)/tan(PI*60/360))*10.0);
   }
 
-  if (keyIsDown(109)) {
+  if (keyIsDown(109) && playing) {
     posY += 0.5;
     if (deltaAnimTilt > 0 && tiltDir === 'down')
       deltaAnimTilt *= -0.5;
@@ -234,13 +250,17 @@ function draw() {
       deltaAnimTilt = animTime;
   }
 
-  if (newSpeedCount - oldSpeedCount > 1000) {
+  if (newSpeedCount - oldSpeedCount > 1000 && playing) {
     //speedRate += 0.00005;
-    speedRate *= 1.01;
+    speedRate *= speedMultiplier;
     oldSpeedCount = newSpeedCount;
 
     score += Math.floor((1532 * speedRate) - posY);
     scoreLabel.innerHTML = score * 10;
   }
   newSpeedCount += deltaTime;
+
+  if (score > Math.random() * 1000 + 100 && playing) {
+    endGame();
+  }
 }

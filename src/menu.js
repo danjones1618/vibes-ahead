@@ -63,8 +63,15 @@ function showSettingsMenu() {
     canvas.id("settings-menu");
     canvas.class("menu");
 
-    let darkMode = createCheckbox('dark mode', true);
+    let volumeText = createDiv(`<p>Volume</p>`);
+    volumeText.parent(canvas);
+    volumeText.id('volume');
+    let volumeSlider = createSlider(0, 0.2, 0.1, 0);
+    volumeSlider.parent(volumeText);
+
+    let darkMode = createCheckbox('Dark Mode', true);
     darkMode.parent(canvas);
+    darkMode.id("dark-check");
     darkMode.changed((e) => {
         if (e.target.checked) {                
             document.getElementsByTagName("body")[0].classList.remove('light');
