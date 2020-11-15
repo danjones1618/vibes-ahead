@@ -83,5 +83,13 @@ function showSubmitScore(score) {
                 : null;
     }
 
+    const menuButton = createButton("main menu");
+    menuButton.parent(canvas);
+    menuButton.class("back-button");
+    menuButton.mousePressed(() => {
+        showMainMenu();
+        canvas.remove();
+    });
+
     inputs[0].elt.focus();
 }
