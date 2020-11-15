@@ -83,6 +83,7 @@ function keyReleased() {
   if (keyCode === 109) {
     document.getElementsByTagName("body")[0].classList.toggle('light');
     document.getElementById("title").innerHTML = "V1bes H4ck3d";
+    hack = 1.0;
   }
 }
 
@@ -185,7 +186,7 @@ function drawGrid() {
     endShape();
   }
 }
-
+var hack = 1.0
 function drawDelorean() {
   //DELOREAN
   //move your mouse to change light direction
@@ -223,6 +224,7 @@ function drawDelorean() {
     if (deltaAnimTilt > 0 && tiltDir === 'down')
     deltaAnimTilt *= -0.5;
     tiltDir = 'down';
+    hack = -1;
   }
   
   if (rotateDir === 'left') {
@@ -296,7 +298,7 @@ function drawStatues() {
   for(i = 0; i < statues.length; i++) {
     // statues[i].zPos = statues[i].zPos - h/scl; //speedRate * deltaTime;//*4.5;
     // statues[i].zPos -= h/scl + pos;
-    statues[i].zPos += speedRate * deltaTime*4; //pos;
+    statues[i].zPos += speedRate * deltaTime*4*hack; //pos;
     if (statues[i].zPos < 10) {
       //translate(statues[i].zPos, terrain[Math.floor(statues[i].xPos - w/scl/2)][Math.floor(statues[i].zPos)], statues[i].xPos - posX);
       translate(statues[i].zPos, 0, statues[i].xPos - posX);
