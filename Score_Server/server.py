@@ -43,7 +43,7 @@ def saveScore():
 
     data = request.get_json()
 
-    if "name" not in data or "score" not in data or len(data["name"]) >= 100:
+    if "name" not in data or "score" not in data or len(data["name"]) > 3:
         return abort(400)
 
     try:
