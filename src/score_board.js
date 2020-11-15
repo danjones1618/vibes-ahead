@@ -47,10 +47,10 @@ function showSubmitScore(score) {
     submitButton.class("back-button");
     submitButton.mousePressed(() => {
         const name = inputs.reduce((ans, x) => ans + x.value(), "");
-        if (name.length !== maxChars){
+        /*if (name.length !== maxChars){
             alert("You must have a 3 character name");
             return;
-        }
+        }*/
 
         fetch("https://vibes.danjones.dev/api/saveScore", {
             method: 'POST',

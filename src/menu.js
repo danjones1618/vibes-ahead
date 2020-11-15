@@ -43,10 +43,10 @@ function showAboutMenu() {
                                 <li>Tymoteusz Suszczynski</li>
                             </ul>`);
     aboutList.parent(canvas);
-    let aboutDetails = createDiv(`<p>UoBxEWB Game Jam 2020</p>`);
+    let aboutDetails = createDiv(`<p>University of Bristol, UoBxEWB Game Jam 2020</p>`);
     aboutDetails.parent(canvas);
-    let aboutUni = createDiv(`<p>University of Bristol</p>`);
-    aboutUni.parent(canvas);
+    let aboutMusic = createDiv(`<p>Music: Ocean Shores</p>`);
+    aboutMusic.parent(canvas);
 
     let backButton = createButton(`Back`);
     backButton.class("back-button");
@@ -66,8 +66,11 @@ function showSettingsMenu() {
     let volumeText = createDiv(`<p>Volume</p>`);
     volumeText.parent(canvas);
     volumeText.id('volume');
-    let volumeSlider = createSlider(0, 0.2, 0.1, 0);
     volumeSlider.parent(volumeText);
+    volumeSlider.show();
+    volumeSlider.mousePressed(() =>{
+        music.setVolume(volumeSlider.value());
+    });
 
     let darkMode = createCheckbox('Dark Mode', true);
     darkMode.parent(canvas);
@@ -85,6 +88,7 @@ function showSettingsMenu() {
     backButton.parent(canvas);
     backButton.mousePressed(() => {
         showMainMenu();
+        volumeSlider.hide();
         canvas.remove();
     })
     backButton.parent(canvas);
